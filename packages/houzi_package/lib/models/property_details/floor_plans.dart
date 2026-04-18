@@ -1,0 +1,100 @@
+import 'package:houzi_package/files/generic_methods/utility_methods.dart';
+import 'package:houzi_package/files/hive_storage_files/hive_storage_manager.dart';
+
+class FloorPlans{
+  String? title;
+  String? rooms;
+  String? bathrooms;
+  String? price;
+  String? pricePostFix;
+  String? size;
+  String? image;
+  String? description;
+  String? currency;
+
+  FloorPlans({
+    this.title,
+    this.rooms,
+    this.bathrooms,
+    this.price,
+    this.pricePostFix,
+    this.size,
+    this.image,
+    this.description
+});
+  String? _compactPrice;
+  final selectCurrency = HiveStorageManager.readSelectedCurrency();
+  String getPrice() {
+    if (_compactPrice != null) {
+      return _compactPrice!;
+    }
+    String _propertyPrice = "";
+    if (price != null && price!.isNotEmpty) {
+      String tempPrice = price!;
+
+       _propertyPrice = UtilityMethods.formatPrice(tempPrice, "", currency ?? "\$", selectCurrency);
+       if (pricePostFix != null && pricePostFix!.isNotEmpty) {
+         _propertyPrice = "$_propertyPrice $pricePostFix";
+       }
+    }
+    _compactPrice = _propertyPrice;
+    return _propertyPrice;
+  }
+}
+
+class FloorPlanElement{
+  String? key;
+  Map<String, dynamic>? dataMap;
+
+  FloorPlanElement({
+    this.key,
+    this.dataMap,
+  });
+}
+
+class AdditionalDetail {
+  String? title;
+  String? value;
+
+  AdditionalDetail({
+    this.title,
+    this.value,
+  });
+}
+
+
+class MultiUnit {
+  String? title;
+  String? price;
+  String? pricePostfix;
+  String? bedrooms;
+  String? bathrooms;
+  String? size;
+  String? sizePostfix;
+  String? type;
+  String? availabilityDate;
+
+  MultiUnit({
+    this.title,
+    this.price,
+    this.pricePostfix,
+    this.bedrooms,
+    this.bathrooms,
+    this.size,
+    this.sizePostfix,
+    this.type,
+    this.availabilityDate,
+  });
+}
+
+class Attachment {
+  Attachment({
+    this.url,
+    this.name,
+    this.size,
+  });
+
+  String? url;
+  String? name;
+  String? size;
+}
